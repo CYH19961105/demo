@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TestController {
 	@GetMapping("index")
     public String toindex() {
-        return "index";
+        return "XXX";
     }
 }
