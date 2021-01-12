@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="blogs.mapper.BlogsTableMapper" >
+  <resultMap id="BaseResultMap" type="blogs.pojo.BlogsTable" >
+    <id column="blogs_id" property="blogsId" jdbcType="INTEGER" />
+    <result column="blogs_title" property="blogsTitle" jdbcType="VARCHAR" />
+    <result column="blogs_endtime" property="blogsEndtime" jdbcType="TIMESTAMP" />
+    <result column="blogs_userid" property="blogsUserid" jdbcType="INTEGER" />
+    <result column="blogs_creattime" property="blogsCreattime" jdbcType="TIMESTAMP" />
+    <result column="blogs_type" property="blogsType" jdbcType="VARCHAR" />
+    <result column="blogs_like" property="blogsLike" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="blogs.pojo.BlogsTable" extends="BaseResultMap" >
+    <result column="blogs_content" property="blogsContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    blogs_id, blogs_title, blogs_endtime, blogs_userid, blogs_creattime, blogs_type, 
+    blogs_like
+  </sql>
+  <sql id="Blob_Column_List" >
+    blogs_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="blogs.pojo.BlogsTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blogs_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="blogs.pojo.BlogsTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blogs_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blogs_table
+    where blogs_id = #{blogsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blogs_table
+    where blogs_id = #{blogsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="blogs.pojo.BlogsTableExample" >
+    delete from blogs_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="blogs.pojo.BlogsTable" >
+    insert into blogs_table (blogs_id, blogs_title, blogs_endtime, 
+      blogs_userid, blogs_creattime, blogs_type, 
+      blogs_like, blogs_content)
+    values (#{blogsId,jdbcType=INTEGER}, #{blogsTitle,jdbcType=VARCHAR}, #{blogsEndtime,jdbcType=TIMESTAMP}, 
+      #{blogsUserid,jdbcType=INTEGER}, #{blogsCreattime,jdbcType=TIMESTAMP}, #{blogsType,jdbcType=VARCHAR}, 
+      #{blogsLike,jdbcType=INTEGER}, #{blogsContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="blogs.pojo.BlogsTable" >
+    insert into blogs_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="blogsId != null" >
+        blogs_id,
+      </if>
+      <if test="blogsTitle != null" >
+        blogs_title,
+      </if>
+      <if test="blogsEndtime != null" >
+        blogs_endtime,
+      </if>
+      <if test="blogsUserid != null" >
+        blogs_userid,
+      </if>
+      <if test="blogsCreattime != null" >
+        blogs_creattime,
+      </if>
+      <if test="blogsType != null" >
+        blogs_type,
+      </if>
+      <if test="blogsLike != null" >
+        blogs_like,
+      </if>
+      <if test="blogsContent != null" >
+        blogs_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="blogsId != null" >
+        #{blogsId,jdbcType=INTEGER},
+      </if>
+      <if test="blogsTitle != null" >
+        #{blogsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogsEndtime != null" >
+        #{blogsEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogsUserid != null" >
+        #{blogsUserid,jdbcType=INTEGER},
+      </if>
+      <if test="blogsCreattime != null" >
+        #{blogsCreattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogsType != null" >
+        #{blogsType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogsLike != null" >
+        #{blogsLike,jdbcType=INTEGER},
+      </if>
+      <if test="blogsContent != null" >
+        #{blogsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="blogs.pojo.BlogsTableExample" resultType="java.lang.Integer" >
+    select count(*) from blogs_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blogs_table
+    <set >
+      <if test="record.blogsId != null" >
+        blogs_id = #{record.blogsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogsTitle != null" >
+        blogs_title = #{record.blogsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogsEndtime != null" >
+        blogs_endtime = #{record.blogsEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blogsUserid != null" >
+        blogs_userid = #{record.blogsUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogsCreattime != null" >
+        blogs_creattime = #{record.blogsCreattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blogsType != null" >
+        blogs_type = #{record.blogsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogsLike != null" >
+        blogs_like = #{record.blogsLike,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogsContent != null" >
+        blogs_content = #{record.blogsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blogs_table
+    set blogs_id = #{record.blogsId,jdbcType=INTEGER},
+      blogs_title = #{record.blogsTitle,jdbcType=VARCHAR},
+      blogs_endtime = #{record.blogsEndtime,jdbcType=TIMESTAMP},
+      blogs_userid = #{record.blogsUserid,jdbcType=INTEGER},
+      blogs_creattime = #{record.blogsCreattime,jdbcType=TIMESTAMP},
+      blogs_type = #{record.blogsType,jdbcType=VARCHAR},
+      blogs_like = #{record.blogsLike,jdbcType=INTEGER},
+      blogs_content = #{record.blogsContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blogs_table
+    set blogs_id = #{record.blogsId,jdbcType=INTEGER},
+      blogs_title = #{record.blogsTitle,jdbcType=VARCHAR},
+      blogs_endtime = #{record.blogsEndtime,jdbcType=TIMESTAMP},
+      blogs_userid = #{record.blogsUserid,jdbcType=INTEGER},
+      blogs_creattime = #{record.blogsCreattime,jdbcType=TIMESTAMP},
+      blogs_type = #{record.blogsType,jdbcType=VARCHAR},
+      blogs_like = #{record.blogsLike,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="blogs.pojo.BlogsTable" >
+    update blogs_table
+    <set >
+      <if test="blogsTitle != null" >
+        blogs_title = #{blogsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogsEndtime != null" >
+        blogs_endtime = #{blogsEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogsUserid != null" >
+        blogs_userid = #{blogsUserid,jdbcType=INTEGER},
+      </if>
+      <if test="blogsCreattime != null" >
+        blogs_creattime = #{blogsCreattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogsType != null" >
+        blogs_type = #{blogsType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogsLike != null" >
+        blogs_like = #{blogsLike,jdbcType=INTEGER},
+      </if>
+      <if test="blogsContent != null" >
+        blogs_content = #{blogsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blogs_id = #{blogsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="blogs.pojo.BlogsTable" >
+    update blogs_table
+    set blogs_title = #{blogsTitle,jdbcType=VARCHAR},
+      blogs_endtime = #{blogsEndtime,jdbcType=TIMESTAMP},
+      blogs_userid = #{blogsUserid,jdbcType=INTEGER},
+      blogs_creattime = #{blogsCreattime,jdbcType=TIMESTAMP},
+      blogs_type = #{blogsType,jdbcType=VARCHAR},
+      blogs_like = #{blogsLike,jdbcType=INTEGER},
+      blogs_content = #{blogsContent,jdbcType=LONGVARCHAR}
+    where blogs_id = #{blogsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="blogs.pojo.BlogsTable" >
+    update blogs_table
+    set blogs_title = #{blogsTitle,jdbcType=VARCHAR},
+      blogs_endtime = #{blogsEndtime,jdbcType=TIMESTAMP},
+      blogs_userid = #{blogsUserid,jdbcType=INTEGER},
+      blogs_creattime = #{blogsCreattime,jdbcType=TIMESTAMP},
+      blogs_type = #{blogsType,jdbcType=VARCHAR},
+      blogs_like = #{blogsLike,jdbcType=INTEGER}
+    where blogs_id = #{blogsId,jdbcType=INTEGER}
+  </update>
+</mapper>
